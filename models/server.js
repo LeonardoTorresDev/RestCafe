@@ -1,16 +1,24 @@
 const express=require('express');
 const cors=require('cors');
 
+const {dbConnection}=require('../database/config');
+
 class Server{
 
     constructor() {
         this.app=express();
         this.port=process.env.PORT;       
-        this.userPath='/users';
+
+        //database connection
+        this.dbConnection();
         //middlewares
         this.middlewares();
         //application routes
         this.routes();
+    }
+
+    async dbConnection(){
+        await dbConnection();
     }
 
     middlewares(){
@@ -18,13 +26,13 @@ class Server{
         this.app.use(cors());
         //JSON parse
         this.app.use(express.json());
-        this.app.use(express.urlencoded({extended: true}));
+        this.app.use(express.urlencoded({extended: false}));
         //public directory
         this.app.use(express.static('public'));
     }
 
     routes(){
-        this.app.use(this.userPath,require('../routes/user'));
+        this.app.use('',require('../routes/index'));
     }
 
     listen(){
