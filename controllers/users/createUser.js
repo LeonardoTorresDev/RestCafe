@@ -1,5 +1,9 @@
 const {customResponseUser,customErrorResponse}=require('../../helpers/responses');
-const {encryptPassword}=require('../../helpers/helpers');
+const {
+    encryptPassword,
+    generateJWT,
+    sendCookie
+}=require('../../helpers/helpers');
 
 const User=require('../../models/user');
 
@@ -15,9 +19,11 @@ const createUser= async (req,res)=>{
 
     if(!userDB){ return customErrorResponse(res,"User creation failed");}
 
-    const token=await generateJWT(user.id);
-    sendCookie(res,token);
-
+    if(req.query.login){
+        const token=await generateJWT(user.id);
+        sendCookie(res,token);
+    }
+    
     customResponseUser(res,"User created successfully",userDB);
 }
 

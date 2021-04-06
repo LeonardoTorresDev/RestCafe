@@ -8,9 +8,6 @@ const updateUser=async (req,res)=>{
     const {id}=req.params;
     const {_id,password,google,...user}=req.body;
 
-    if(Object.entries(user).length===0 && !password){ 
-        return customErrorResponse(res,"No data sent",400); 
-    }
     if(password){ 
         user.password=encryptPassword(password);
     }
