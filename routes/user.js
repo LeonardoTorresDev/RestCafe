@@ -1,17 +1,23 @@
-const {check}=require('express-validator');
-const {Router}=require('express');
+const {check} = require('express-validator');
+const {Router} = require('express');
 
-const getUsers=require('../controllers/users/getUsers');
-const createUsers = require('../controllers/users/createUsers');
-const updateUsers = require('../controllers/users/updateUsers');
-const deleteUsers=require('../controllers/users/deleteUsers');
+const getUsers = require('../controllers/users/getUsers');
+const createUser = require('../controllers/users/createUser');
+const updateUser = require('../controllers/users/updateUser');
+const deleteUser = require('../controllers/users/deleteUser');
 
-const {fieldValidation}=require('../middlewares/fieldValidation');
-const {uniqueEmail,validRole,idExists}=require('../helpers/databaseValidators');
+const {
+    fieldValidation,
+    authRole,
+    authToken
+} = require('../middlewares')
 
-const router=Router();
+const {uniqueEmail,validRole,idExists} = require('../helpers/databaseValidators');
+const {checkPassword} = require('../helpers/customValidators');
 
-router.get('/',getUsers);
+const router = Router();
+
+router.get('/',authToken,getUsers);
 
 router.post('/',[
     check('name','Unvalid name').not().isEmpty(),
@@ -20,21 +26,27 @@ router.post('/',[
     check('role').custom(validRole),
     check('email').custom(uniqueEmail),
     fieldValidation
-],createUsers);
+],createUser);
 
 router.put('/:id',[
+    authToken,
+    authRole("ADMIN_ROLE"),
     check('id',"It's not a valid MongoID").isMongoId(),
     check('id').custom(idExists),
-    check('role').custom(validRole),
-    check('state','State has to be a boolean value').isBoolean(),
-    check('email').custom(uniqueEmail),
+    check('name','Unvalid name').optional().not().isEmpty(),
+    check('email','Unvalid email').optional().isEmail(),
+    check('password').optional().custom(checkPassword),
+    check('role').optional().custom(validRole),
+    check('state','State has to be a boolean value').optional().isBoolean(),
     fieldValidation
-],updateUsers);
+],updateUser);
 
 router.delete('/:id',[
+    authToken,
+    authRole("ADMIN_ROLE"),
     check('id',"It's not a valid MongoID").isMongoId(),
     check('id').custom(idExists),
     fieldValidation
-],deleteUsers);
+],deleteUser);
 
 module.exports=router;

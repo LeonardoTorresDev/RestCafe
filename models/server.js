@@ -1,5 +1,6 @@
 const express=require('express');
 const cors=require('cors');
+const cookieParser=require('cookie-parser');
 
 const {dbConnection}=require('../database/config');
 
@@ -27,6 +28,8 @@ class Server{
         //JSON parse
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended: false}));
+        //cookie parse
+        this.app.use(cookieParser());
         //public directory
         this.app.use(express.static('public'));
     }

@@ -2,7 +2,7 @@ const {customResponseUser}=require('../../helpers/responses');
 
 const User=require('../../models/user');
 
-const getUsers=async (req,res)=>{
+const getUsers = async (req,res)=>{
 
     const {limit=5,from=0}=req.query;
     const query={state: true};
