@@ -6,7 +6,6 @@ const User=require('../models/user');
 const authToken=async(req,res,next)=>{
     const token=req.cookies.RestCookie;
     if(!token){ return customErrorResponse(res,"User is not logged in",400);}
-
     try{      
         const {uid}=jwt.verify(token,process.env.SECRET_KEY);
         const user=await User.findById(uid);

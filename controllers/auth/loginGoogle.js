@@ -1,5 +1,5 @@
-const {customErrorResponse}=require('../../helpers/responses');
-const {loginUserResponse,googleVerify}=require('../../helpers/helpers');
+const {customErrorResponse,loginUserResponse}=require('../../helpers/responses');
+const {googleVerify}=require('../../helpers/helpers');
 
 const User=require('../../models/user');
 
@@ -26,10 +26,11 @@ const googleLogin=async(req,res)=>{
             return customErrorResponse(res,"User currently blocked, contact administrator",401);
         }
 
-        loginUserResponse(res,user);
+        await loginUserResponse(res,user);
     }
     catch(error){
-        customErrorResponse(res,"Invalid google token",400)
+        console.log(error)
+        return customErrorResponse(res,"Invalid google token",400)
     }
 }
 

@@ -1,4 +1,4 @@
-const {customResponseUser,customErrorResponse}=require('../../helpers/responses');
+const {loginUserResponse,customUserResponse,errorResponse}=require('../../helpers/responses');
 const {
     encryptPassword,
     generateJWT,
@@ -14,17 +14,20 @@ const createUser= async (req,res)=>{
         name, email, role
     });
 
-    user.password=encryptPassword(password);
-    const userDB= await user.save().catch(e=>console.log(e)); 
+    try{
+        user.password=encryptPassword(password);
+        const userDB= await user.save();
 
-    if(!userDB){ return customErrorResponse(res,"User creation failed");}
-
-    if(req.query.login){
-        const token=await generateJWT(user.id);
-        sendCookie(res,token);
+        if(req.query.login){
+            return loginUserResponse(res,user)
+        }
+        
+        customUserResponse(res,"User created successfully",userDB);
     }
-    
-    customResponseUser(res,"User created successfully",userDB);
+    catch(error){
+        console.log(error)
+        return errorResponse(res,"User creation failed: contact administrator",error,500);
+    }
 }
 
 module.exports=createUser;

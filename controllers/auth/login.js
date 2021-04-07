@@ -1,7 +1,6 @@
 const bcryptjs=require('bcryptjs');
 
-const {customErrorResponse}=require('../../helpers/responses');
-const {loginUserResponse}=require('../../helpers/helpers');
+const {customErrorResponse,errorResponse,loginUserResponse}=require('../../helpers/responses');
 const User=require('../../models/user');
 
 const login=async(req,res)=>{
@@ -16,13 +15,12 @@ const login=async(req,res)=>{
         const validPassword=bcryptjs.compareSync(password,user.password);
         if(!validPassword){ return customErrorResponse(res,"Invalid password",400);}
 
-        loginUserResponse(res,user);
+        await loginUserResponse(res,user);
 
     } catch (error) {
         console.log(error)
-        customErrorResponse(res,"Contact database administrator",500);
+        errorResponse(res,"Contact database administrator",error,500);
     }
-    
 }
 
 module.exports=login;

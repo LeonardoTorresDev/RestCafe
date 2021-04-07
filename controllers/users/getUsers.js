@@ -1,5 +1,3 @@
-const {customResponseUser}=require('../../helpers/responses');
-
 const User=require('../../models/user');
 
 const getUsers = async (req,res)=>{
@@ -14,8 +12,12 @@ const getUsers = async (req,res)=>{
         .limit(Number(limit))
     ]);
 
-    const msg=`${total} documents on database`;
-    customResponseUser(res,msg,users);
+    res.status(200).json({
+        ok: true,
+        total,
+        sent: users.length,
+        users
+    });
 }
 
 module.exports=getUsers;

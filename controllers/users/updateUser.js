@@ -1,4 +1,4 @@
-const {customResponseUser,customErrorResponse}=require('../../helpers/responses');
+const {customUserResponse, errorResponse}=require('../../helpers/responses');
 const {encryptPassword}=require('../../helpers/helpers');
 
 const User=require('../../models/user');
@@ -8,18 +8,17 @@ const updateUser=async (req,res)=>{
     const {id}=req.params;
     const {_id,password,google,...user}=req.body;
 
-    if(password){ 
-        user.password=encryptPassword(password);
-    }
-  
-    const updatedUser=await User.findByIdAndUpdate(id,user,{new: true})
-    .catch(e=>console.log(e));
+    try{
+        if(password){ 
+            user.password=encryptPassword(password);
+        }
 
-    if(!updatedUser){
-        return customErrorResponse(res,"User update failed",500);  
+        const updatedUser=await User.findByIdAndUpdate(id,user,{new: true});
+        customUserResponse(res,"User updated successfully",updatedUser);
     }
-
-    customResponseUser(res,"User updated successfully",updatedUser);
+    catch(error){
+        return errorResponse(res,"User update failed",error,500);
+    }
 }
 
 module.exports=updateUser;

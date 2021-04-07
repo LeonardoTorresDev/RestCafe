@@ -2,8 +2,6 @@ const {OAuth2Client}=require('google-auth-library');
 const bcryptjs=require('bcryptjs');
 const jwt=require('jsonwebtoken');
 
-const {customResponseUser}=require('./responses')
-
 const client = new OAuth2Client( process.env.GOOGLE_CLIENT_ID );
 
 const encryptPassword=password=>{
@@ -30,16 +28,8 @@ const generateJWT=uid=>{
 
 const sendCookie=(res,token)=>{
     return res.cookie("RestCookie",token,{
-        maxAge: Number(process.env.EXPIRATION_DATE),
-        secure: true,
-        sameSite: 'None'
+        maxAge: Number(process.env.EXPIRATION_DATE)
     });
-}
-
-const loginUserResponse=async(res,user)=>{
-    const token=await generateJWT(user.id);
-    sendCookie(res,token);
-    return customResponseUser(res,"User logged in succesfully",user);
 }
 
 const googleVerify=async(idToken)=>{
@@ -60,7 +50,6 @@ const googleVerify=async(idToken)=>{
 }
 
 module.exports={
-    loginUserResponse,
     encryptPassword,
     generateJWT,
     sendCookie,

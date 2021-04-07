@@ -1,12 +1,11 @@
-const {customResponseUser}=require('../../helpers/responses');
+const {customResponse}=require('../../helpers/responses');
 
 const logout=(req,res)=>{
     const user=req.user;
     res.cookie("RestCookie","",{
-        maxAge: 1,
-        sameSite: 'None'
+        maxAge: 1
     });
-    customResponseUser(res,"User logged out succesfully",user);
+    customResponse(res,`User ${user.name} logged out succesfully`);
 }
 
 module.exports=logout;
