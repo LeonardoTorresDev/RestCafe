@@ -1,7 +1,7 @@
 const bcryptjs=require('bcryptjs');
 
-const {customResponseUser, customErrorResponse}=require('../../helpers/responses');
-const {generateJWT,sendCookie}=require('../../helpers/helpers');
+const {customErrorResponse}=require('../../helpers/responses');
+const {loginUserResponse}=require('../../helpers/helpers');
 const User=require('../../models/user');
 
 const login=async(req,res)=>{
@@ -16,10 +16,7 @@ const login=async(req,res)=>{
         const validPassword=bcryptjs.compareSync(password,user.password);
         if(!validPassword){ return customErrorResponse(res,"Invalid password",400);}
 
-        const token=await generateJWT(user.id);
-        sendCookie(res,token);
-
-        customResponseUser(res,"User logged in",user);
+        loginUserResponse(res,user);
 
     } catch (error) {
         console.log(error)

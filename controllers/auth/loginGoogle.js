@@ -1,5 +1,5 @@
-const {customResponseUser, customErrorResponse}=require('../../helpers/responses');
-const {generateJWT,sendCookie,googleVerify}=require('../../helpers/helpers');
+const {customErrorResponse}=require('../../helpers/responses');
+const {loginUserResponse,googleVerify}=require('../../helpers/helpers');
 
 const User=require('../../models/user');
 
@@ -12,17 +12,14 @@ const googleLogin=async(req,res)=>{
         let user=await User.findOne({email})
 
         if(!user){
-
-            const newUser=new User({
+            user=new User({
                 name,
                 email,
                 img,
                 google: true,
                 password: 'google_password'
             })
-            await newUser.save();
-
-            return loginUserResponse(res,newUser);
+            await user.save();
         }
 
         if(!user.state){
@@ -34,12 +31,6 @@ const googleLogin=async(req,res)=>{
     catch(error){
         customErrorResponse(res,"Invalid google token",400)
     }
-}
-
-const loginUserResponse=async(res,user)=>{
-    const token=await generateJWT(user.id);
-    sendCookie(res,token);
-    return customResponseUser(res,"User logged in succesfully",user);
 }
 
 module.exports=googleLogin;

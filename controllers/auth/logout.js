@@ -2,7 +2,7 @@ const {customResponseUser}=require('../../helpers/responses');
 
 const logout=(req,res)=>{
     const user=req.user;
-    res.cookie("jwtCookie","",{
+    res.cookie("RestCookie","",{
         maxAge: 1,
         sameSite: 'None'
     });
