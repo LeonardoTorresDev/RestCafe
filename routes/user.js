@@ -19,8 +19,8 @@ const router = Router();
 router.get('/',authToken,getUsers);
 
 router.post('/',[
-    check('name','Unvalid name').not().isEmpty(),
-    check('email','Unvalid email').isEmail(),
+    check('name','Invalid name').not().isEmpty(),
+    check('email','Invalid email').isEmail(),
     check('password',
     'Password has to contain one digit, one lower, one upper and has to be eight characters long')
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/),
@@ -35,8 +35,8 @@ router.put('/:id',[
     authRole("ADMIN_ROLE"),
     check('id',"It's not a valid MongoID").isMongoId(),
     check('id').custom(idExists),
-    check('name','Unvalid name').optional().not().isEmpty(),
-    check('email','Unvalid email').optional().isEmail(),
+    check('name','Invalid name').optional().not().isEmpty(),
+    check('email','Invalid email').optional().isEmail(),
     check('password',
     'Password has to contain one digit, one lower case, one upper case and has to be eight characters long')
     .optional().matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/),

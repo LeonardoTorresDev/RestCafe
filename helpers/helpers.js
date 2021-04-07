@@ -1,3 +1,4 @@
+const {OAuth2Client}=require('google-auth-library');
 const bcryptjs=require('bcryptjs');
 const jwt=require('jsonwebtoken');
 
@@ -30,8 +31,28 @@ const sendCookie=(res,token)=>{
     });
 };
 
+const googleVerify=async(idToken)=>{
+
+    const client = new OAuth2Client( process.env.GOOGLE_CLIENT_ID );
+
+    const ticket = await client.verifyIdToken({
+        idToken,
+        audience: process.env.GOOGLE_CLIENT_ID
+    });
+
+    const {
+        name,
+        email,
+        picture: img
+    }=ticket.getPayload();
+
+    return {name,email,img}
+
+}
+
 module.exports={
     encryptPassword,
     generateJWT,
-    sendCookie
+    sendCookie,
+    googleVerify
 };

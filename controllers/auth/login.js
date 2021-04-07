@@ -14,7 +14,7 @@ const login=async(req,res)=>{
         if(!user.state){ return customErrorResponse(res,"User is currently not active",400);}
 
         const validPassword=bcryptjs.compareSync(password,user.password);
-        if(!validPassword){ return customErrorResponse(res,"Unvalid password",400);}
+        if(!validPassword){ return customErrorResponse(res,"Invalid password",400);}
 
         const token=await generateJWT(user.id);
         sendCookie(res,token);
