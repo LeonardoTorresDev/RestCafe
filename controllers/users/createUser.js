@@ -1,9 +1,10 @@
-const {loginUserResponse,customUserResponse,errorResponse}=require('../../helpers/responses');
 const {
-    encryptPassword,
-    generateJWT,
-    sendCookie
-}=require('../../helpers/helpers');
+    loginUserResponse,
+    customUserResponse,
+    errorResponse
+}=require('../../helpers/responses');
+
+const {encryptPassword}=require('../../helpers/helpers');
 
 const User=require('../../models/user');
 

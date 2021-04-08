@@ -9,7 +9,6 @@ const login=async(req,res)=>{
         const user=await User.findOne({email});
 
         if(!user){return customErrorResponse(res,"User not founded",400);}
-
         if(!user.state){ return customErrorResponse(res,"User is currently not active",400);}
 
         const validPassword=bcryptjs.compareSync(password,user.password);

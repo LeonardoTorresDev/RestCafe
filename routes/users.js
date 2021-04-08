@@ -2,6 +2,7 @@ const {check} = require('express-validator');
 const {Router} = require('express');
 
 const getUsers = require('../controllers/users/getUsers');
+const getUser = require('../controllers/users/getUser');
 const createUser = require('../controllers/users/createUser');
 const updateUser = require('../controllers/users/updateUser');
 const deleteUser = require('../controllers/users/deleteUser');
@@ -16,9 +17,21 @@ const {uniqueEmail,validRole,idExists} = require('../helpers/databaseValidators'
 
 const router = Router();
 
-router.get('/',authToken,getUsers);
+const sortAllowedValues=["_id","name","email","role"]
+const orderAllowedValues=["asc","desc"]
 
-router.post('/',[
+router.get('/user',authToken,getUser);
+
+router.get('/users',[
+    authToken,
+    check('from','from has to be a number').optional().isNumeric(),
+    check('limit','limit has to be a number').optional().isNumeric(),
+    check('sort',"has to be in "+sortAllowedValues.join(', ')).optional().isIn(sortAllowedValues),
+    check('order',"has to be in "+orderAllowedValues.join(', ')).optional().isIn(orderAllowedValues),
+    fieldValidation
+],getUsers);
+
+router.post('/users',[
     check('name','Invalid name').not().isEmpty(),
     check('email','Invalid email').isEmail(),
     check('password',
@@ -30,7 +43,7 @@ router.post('/',[
     fieldValidation
 ],createUser);
 
-router.put('/:id',[
+router.put('/users/:id',[
     authToken,
     authRole("ADMIN_ROLE"),
     check('id',"It's not a valid MongoID").isMongoId(),
@@ -45,7 +58,7 @@ router.put('/:id',[
     fieldValidation
 ],updateUser);
 
-router.delete('/:id',[
+router.delete('/users/:id',[
     authToken,
     authRole("ADMIN_ROLE"),
     check('id',"It's not a valid MongoID").isMongoId(),

@@ -4,6 +4,13 @@ const jwt=require('jsonwebtoken');
 
 const client = new OAuth2Client( process.env.GOOGLE_CLIENT_ID );
 
+const parseSort=(sort,order)=>{
+    if(order=='desc'){
+        sort="-"+sort;
+    }
+    return sort;
+}
+
 const encryptPassword=password=>{
     const salt=bcryptjs.genSaltSync();
     const encryptedPassword=bcryptjs.hashSync(password,salt);
@@ -50,6 +57,7 @@ const googleVerify=async(idToken)=>{
 }
 
 module.exports={
+    parseSort,
     encryptPassword,
     generateJWT,
     sendCookie,
