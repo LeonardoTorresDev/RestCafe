@@ -17,12 +17,12 @@ const {uniqueEmail,validRole,idExists} = require('../helpers/databaseValidators'
 
 const router = Router();
 
-const sortAllowedValues=["_id","name","email","role"]
-const orderAllowedValues=["asc","desc"]
+const sortAllowedValues=["_id","name","email","role"];
+const orderAllowedValues=["asc","desc"];
 
-router.get('/user',authToken,getUser);
+router.get('/current',authToken,getUser);
 
-router.get('/users',[
+router.get('/',[
     authToken,
     check('from','from has to be a number').optional().isNumeric(),
     check('limit','limit has to be a number').optional().isNumeric(),
@@ -31,7 +31,7 @@ router.get('/users',[
     fieldValidation
 ],getUsers);
 
-router.post('/users',[
+router.post('/',[
     check('name','Invalid name').not().isEmpty(),
     check('email','Invalid email').isEmail(),
     check('password',
@@ -43,7 +43,7 @@ router.post('/users',[
     fieldValidation
 ],createUser);
 
-router.put('/users/:id',[
+router.put('/:id',[
     authToken,
     authRole("ADMIN_ROLE"),
     check('id',"It's not a valid MongoID").isMongoId(),
@@ -58,7 +58,7 @@ router.put('/users/:id',[
     fieldValidation
 ],updateUser);
 
-router.delete('/users/:id',[
+router.delete('/:id',[
     authToken,
     authRole("ADMIN_ROLE"),
     check('id',"It's not a valid MongoID").isMongoId(),

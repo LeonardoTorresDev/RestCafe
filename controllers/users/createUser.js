@@ -23,7 +23,7 @@ const createUser= async (req,res)=>{
             return loginUserResponse(res,user)
         }
         
-        customUserResponse(res,"User created successfully",userDB);
+        customUserResponse(res,"User created successfully",userDB,201);
     }
     catch(error){
         console.log(error)

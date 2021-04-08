@@ -5,7 +5,7 @@ const users=require('./users');
 const auth=require('./auth')
 const categories=require('./categories')
 
-router.use('/',users);
+router.use('/users',users);
 router.use('/auth',auth);
 router.use('/categories',categories);
 

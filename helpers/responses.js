@@ -8,8 +8,8 @@ const errorResponse=(res,msg,error,code)=>{
     })
 }
 
-const customResponse=(res,msg)=>{
-    return res.json({
+const customResponse=(res,msg,code=200)=>{
+    return res.status(code).json({
         ok: true,
         msg
     })
@@ -26,8 +26,8 @@ const loginUserResponse=async(res,user)=>{
     });
 }
 
-const customUserResponse=(res,msg,user)=>{
-    return res.json({
+const customUserResponse=(res,msg,user,code=200)=>{
+    return res.status(code).json({
         ok: true,
         msg,
         user

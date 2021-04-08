@@ -1,5 +1,6 @@
 const Role=require('../models/role');
 const User=require('../models/user');
+const Category=require('../models/category');
 
 const validRole=async(role)=>{
     const roleExists=await Role.findOne({role});
@@ -22,8 +23,17 @@ const idExists=async(id)=>{
     }
 }
 
+const uniqueCategoryName=async(name)=>{
+    name=name.toUpperCase().trim()
+    const categoryNameExists=await Category.findOne({name});
+    if(categoryNameExists){
+        throw new Error(`Category ${name} already exists on database`);
+    }
+}
+
 module.exports={
     validRole,
     uniqueEmail,
-    idExists
+    idExists,
+    uniqueCategoryName
 }
