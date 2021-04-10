@@ -2,10 +2,9 @@ const mongoose=require('mongoose');
 
 const {errorResponse}=require('../../helpers/responses');
 
-const User=require('../../models/user');
 const Category=require('../../models/category');
 
-const deleteUser=async(req,res)=>{
+const deleteCategory=async(req,res)=>{
 
     const session=await mongoose.startSession();
     session.startTransaction();
@@ -13,15 +12,10 @@ const deleteUser=async(req,res)=>{
     try{
 
         const {id}=req.params;
-        const deletedUser=await User.findByIdAndUpdate(id,{state: false},{new: true});
-
-        await Category.updateMany({user: deletedUser._id},{state: false});
-        const deletedCategorys=await Category.find({user: deletedUser._id});
-        
+        const deletedCategory=await Category.findByIdAndUpdate(id,{state: false},{new: true});
         await session.commitTransaction();
         res.send({
-            deletedUser,
-            deletedCategorys
+            deletedCategory
         });
         
     }
@@ -34,4 +28,4 @@ const deleteUser=async(req,res)=>{
     }
 };
 
-module.exports=deleteUser;
+module.exports=deleteCategory;

@@ -23,6 +23,13 @@ const idExists=async(id)=>{
     }
 }
 
+const idCategoryExists=async(id)=>{
+    const checkId=await Category.findById(id)
+    if(!checkId){
+        throw new Error(`${id} doesn't exist on database`);
+    }
+}
+
 const uniqueCategoryName=async(name)=>{
     name=name.toUpperCase().trim()
     const categoryNameExists=await Category.findOne({name});
@@ -35,5 +42,6 @@ module.exports={
     validRole,
     uniqueEmail,
     idExists,
+    idCategoryExists,
     uniqueCategoryName
 }

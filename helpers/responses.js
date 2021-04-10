@@ -34,6 +34,14 @@ const customUserResponse=(res,msg,user,code=200)=>{
     });
 };
 
+const customCategoryResponse=(res,msg,category,code=200)=>{
+    return res.status(code).json({
+        ok: true,
+        msg,
+        category
+    });
+}
+
 const customErrorResponse=(res,msg,code)=>{
     return res.status(code).json({
         ok: false,
@@ -45,6 +53,7 @@ module.exports={
     errorResponse,
     customResponse,
     customUserResponse,
+    customCategoryResponse,
     customErrorResponse,
     loginUserResponse
 }
