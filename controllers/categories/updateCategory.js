@@ -6,7 +6,6 @@ const updateCategory=async(req,res)=>{
     data.user = req.user._id;
     try{       
         const {id}=req.params;
-        if(data.name){data.name=data.name.toUpperCase().trim();}
         const updatedCategory=await Category.findByIdAndUpdate(id,data,{new: true});
         res.send(updatedCategory);
     }

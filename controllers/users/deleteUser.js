@@ -1,9 +1,10 @@
 const mongoose=require('mongoose');
 
-const {errorResponse}=require('../../helpers/responses');
+const {errorResponse,customResponse}=require('../../helpers/responses');
 
 const User=require('../../models/user');
 const Category=require('../../models/category');
+const Product = require('../../models/product');
 
 const deleteUser=async(req,res)=>{
 
@@ -15,14 +16,11 @@ const deleteUser=async(req,res)=>{
         const {id}=req.params;
         const deletedUser=await User.findByIdAndUpdate(id,{state: false},{new: true});
 
-        await Category.updateMany({user: deletedUser._id},{state: false});
-        const deletedCategorys=await Category.find({user: deletedUser._id});
-        
+        await Category.updateMany({user: deletedUser._id},{state: false}); 
+        await Product.updateMany({user: deletedUser._id},{state: false})
+
         await session.commitTransaction();
-        res.send({
-            deletedUser,
-            deletedCategorys
-        });
+        customResponse(res, "User deleted succesfully",200);
         
     }
     catch(error){

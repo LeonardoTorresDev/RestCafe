@@ -1,6 +1,7 @@
 const Role=require('../models/role');
 const User=require('../models/user');
 const Category=require('../models/category');
+const Product = require('../models/product');
 
 const validRole=async(role)=>{
     const roleExists=await Role.findOne({role});
@@ -17,14 +18,21 @@ const uniqueEmail=async(email)=>{
 }
 
 const idExists=async(id)=>{
-    const checkId=await User.findById(id)
+    const checkId=await User.findById(id);
     if(!checkId){
         throw new Error(`${id} doesn't exist on database`);
     }
 }
 
 const idCategoryExists=async(id)=>{
-    const checkId=await Category.findById(id)
+    const checkId=await Category.findById(id);
+    if(!checkId){
+        throw new Error(`${id} doesn't exist on database`);
+    }
+}
+
+const idProductExists=async(id)=>{
+    const checkId=await Product.findById(id);
     if(!checkId){
         throw new Error(`${id} doesn't exist on database`);
     }
@@ -43,5 +51,6 @@ module.exports={
     uniqueEmail,
     idExists,
     idCategoryExists,
+    idProductExists,
     uniqueCategoryName
 }

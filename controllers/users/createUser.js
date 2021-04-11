@@ -22,7 +22,8 @@ const createUser= async (req,res)=>{
         if(req.query.login){
             return loginUserResponse(res,user)
         }
-        
+        //crear token y enviar correo
+        //responder correo enviado, verifique su cuenta!
         customUserResponse(res,"User created successfully",userDB,201);
     }
     catch(error){

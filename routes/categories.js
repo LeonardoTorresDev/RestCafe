@@ -46,7 +46,7 @@ router.put('/:id',[
     check('id','id is not a valid mongoID').isMongoId(),
     check('id').custom(idCategoryExists),
     check('name').optional().custom(uniqueCategoryName),
-    check('name','Invalid name').optional().not().isEmpty(),
+    check('name','Invalid name').optional().not().isEmpty().toUpperCase().trim().escape(),
     check('state','State has to be a boolean value').optional().isBoolean(),
     fieldValidation
 ],updateCategory);
