@@ -39,6 +39,22 @@ const sendCookie=(res,token)=>{
     });
 }
 
+const generateEmailVerifyJWT=async(user)=>{
+    return new Promise((resolve,reject)=>{
+        const payload=user;
+        jwt.sign(payload,process.env.VERIFY_KEY,{
+            expiresIn: process.env.EXPIRATION_VERIFY_DATE
+        },(err,token)=>{
+            if(err){
+                reject("Couldn't generate token");
+            }
+            else{
+                resolve(token);
+              }      
+        });
+    });
+}
+
 const googleVerify=async(idToken)=>{
 
     const ticket = await client.verifyIdToken({
@@ -60,6 +76,7 @@ module.exports={
     parseSort,
     encryptPassword,
     generateJWT,
+    generateEmailVerifyJWT,
     sendCookie,
     googleVerify
 };
