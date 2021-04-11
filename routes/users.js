@@ -11,7 +11,7 @@ const {
     fieldValidation,
     authRole,
     authToken
-} = require('../middlewares')
+} = require('../middlewares');
 
 const {uniqueEmail,validRole,idExists} = require('../helpers/databaseValidators');
 

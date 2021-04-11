@@ -4,11 +4,9 @@ const Category=require('../../models/category');
 const updateCategory=async(req,res)=>{
     const {user, ...data } = req.body;
     data.user = req.user._id;
-    if(data.name){
-        data.name = data.name.toUpperCase().trim();
-    }
-    try{
+    try{       
         const {id}=req.params;
+        if(data.name){data.name=data.name.toUpperCase().trim();}
         const updatedCategory=await Category.findByIdAndUpdate(id,data,{new: true});
         res.send(updatedCategory);
     }

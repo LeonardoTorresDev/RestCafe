@@ -1,7 +1,7 @@
 const { parseSort } = require('../../helpers/helpers');
-const Category = require('../../models/category');
+const Product=require('../../models/product');
 
-const getCategories = async (req,res)=>{
+const getProducts=async(req,res)=>{
 
     const {
         limit=5,
@@ -9,13 +9,13 @@ const getCategories = async (req,res)=>{
         sort="_id",
         order="asc"
     }=req.query;
-    
+
     const query={state: true};
-    const [total,categories]=await Promise.all([
-        Category.countDocuments(query),
-        Category.find(query)
+    const [total,products]=await Promise.all([
+        Product.countDocuments(query),
+        Product.find(query)
+            .populate('category','name')
             .populate('user','name')
-            .populate('products','name')
             .skip(Number(from))
             .limit(Number(limit))
             .sort(parseSort(sort,order)) 
@@ -24,9 +24,9 @@ const getCategories = async (req,res)=>{
     res.status(200).json({
         ok: true,
         total,
-        sent: categories.length,
-        categories
+        sent: products.length,
+        products
     });
 }
 
-module.exports=getCategories;
+module.exports=getProducts;
