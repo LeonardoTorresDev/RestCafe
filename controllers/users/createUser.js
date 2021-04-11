@@ -4,7 +4,7 @@ const {
     errorResponse
 }=require('../../helpers/responses');
 
-const {encryptPassword}=require('../../helpers/helpers');
+const {encryptPassword,generateJWT}=require('../../helpers/helpers');
 
 const User=require('../../models/user');
 
@@ -24,6 +24,8 @@ const createUser= async (req,res)=>{
         }
         //crear token y enviar correo
         //responder correo enviado, verifique su cuenta!
+        const tokenEmail=await generateJWT(userDB._id,process.env.VERIFY_KEY,process.env.VERIFY_EXPIRATION_DATE);
+        console.log(tokenEmail)
         customUserResponse(res,"User created successfully",userDB,201);
     }
     catch(error){

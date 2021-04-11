@@ -17,13 +17,14 @@ const encryptPassword=password=>{
     return encryptedPassword;
 }
 
-const generateJWT=uid=>{
+const generateJWT=(uid, key=process.env.SECRET_KEY, expirationDate=process.env.EXPIRATION_DATE)=>{
     return new Promise((resolve,reject)=>{
         const payload={uid};
-        jwt.sign( payload, process.env.SECRET_KEY,{
-            expiresIn: process.env.EXPIRATION_DATE
+        jwt.sign( payload, key,{
+            expiresIn: expirationDate
         },(err,token) =>{
-            if(err){
+            if(err){           
+                console.log(err)  
                 reject("Couldn't generate token");
             }
             else{
@@ -36,22 +37,6 @@ const generateJWT=uid=>{
 const sendCookie=(res,token)=>{
     return res.cookie("RestCookie",token,{
         maxAge: Number(process.env.EXPIRATION_DATE)
-    });
-}
-
-const generateEmailVerifyJWT=async(user)=>{
-    return new Promise((resolve,reject)=>{
-        const payload=user;
-        jwt.sign(payload,process.env.VERIFY_KEY,{
-            expiresIn: process.env.EXPIRATION_VERIFY_DATE
-        },(err,token)=>{
-            if(err){
-                reject("Couldn't generate token");
-            }
-            else{
-                resolve(token);
-              }      
-        });
     });
 }
 
@@ -76,7 +61,6 @@ module.exports={
     parseSort,
     encryptPassword,
     generateJWT,
-    generateEmailVerifyJWT,
     sendCookie,
     googleVerify
 };
