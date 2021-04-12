@@ -1,7 +1,9 @@
-const { customUserResponse } = require('../../helpers/responses');
-
 const getUser=(req,res)=>{
-    customUserResponse(res,"Currently logged user",req.user);
+    res.json({
+        ok: true,
+        msg: "Currently logged user",
+        user: req.user
+    })
 }
 
 module.exports=getUser;

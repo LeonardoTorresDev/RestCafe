@@ -1,4 +1,4 @@
-const {errorResponse}=require('../../helpers/responses');
+const {errorResponse,customResponse}=require('../../helpers/responses');
 const Category=require('../../models/category');
 
 const updateCategory=async(req,res)=>{
@@ -6,8 +6,8 @@ const updateCategory=async(req,res)=>{
     data.user = req.user._id;
     try{       
         const {id}=req.params;
-        const updatedCategory=await Category.findByIdAndUpdate(id,data,{new: true});
-        res.send(updatedCategory);
+        await Category.findByIdAndUpdate(id,data,{new: true});
+        customResponse(res,"Category updated successfully",200);
     }
     catch(error){
         console.log(error);
