@@ -17,12 +17,13 @@ const createUser= async (req,res)=>{
     });
 
     try{
+
         user.password=encryptPassword(password);
         const userDB= await user.save();
-        //crear token y enviar correo
-        //responder correo enviado, verifique su cuenta!
+        //send email to verify account with token
         await emailVerify(userDB);
         return customResponse(res,"Check your email to verify your account!",201);
+        
     }
     catch(error){
         console.log(error)
