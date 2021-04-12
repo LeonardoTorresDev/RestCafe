@@ -4,6 +4,7 @@ const {Router} = require('express');
 const getUsers = require('../controllers/users/getUsers');
 const getUser = require('../controllers/users/getUser');
 const createUser = require('../controllers/users/createUser');
+const verifyUser = require('../controllers/users/verifyUser');
 const updateUser = require('../controllers/users/updateUser');
 const deleteUser = require('../controllers/users/deleteUser');
 
@@ -39,9 +40,10 @@ router.post('/',[
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/),
     check('role').custom(validRole),
     check('email').custom(uniqueEmail),
-    check('login','has to be boolean').optional().isBoolean(),
     fieldValidation
 ],createUser);
+
+router.put('/verify',verifyUser);
 
 router.put('/:id',[
     authToken,

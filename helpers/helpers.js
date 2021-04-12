@@ -23,8 +23,7 @@ const generateJWT=(uid, key=process.env.SECRET_KEY, expirationDate=process.env.E
         jwt.sign( payload, key,{
             expiresIn: expirationDate
         },(err,token) =>{
-            if(err){           
-                console.log(err)  
+            if(err){            
                 reject("Couldn't generate token");
             }
             else{
