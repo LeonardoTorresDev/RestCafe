@@ -6,7 +6,7 @@ const User=require('../../models/user');
 const updateUser=async (req,res)=>{
 
     const {id}=req.params;
-    const {_id,password,google,...user}=req.body;
+    const {_id,password,verified,google,...user}=req.body;
 
     try{
         if(password){ 
