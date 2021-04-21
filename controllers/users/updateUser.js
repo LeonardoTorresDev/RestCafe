@@ -12,7 +12,7 @@ const updateUser=async (req,res)=>{
         if(password){ 
             user.password=encryptPassword(password);
         }
-        await User.findByIdAndUpdate(id,user,{new: true});
+        await User.findByIdAndUpdate(id,user,{new: true}).exec();
         customResponse(res,"User updated successfully",200);
     }
     catch(error){

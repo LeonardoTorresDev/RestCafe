@@ -21,7 +21,7 @@ const createProduct=async(req,res)=>{
         });
         const productDB=await product.save();
         //use $addToSet to add to products array on category by using just a query
-        await Category.findByIdAndUpdate(category,{$addToSet:{products: productDB._id}});
+        await Category.findByIdAndUpdate(category,{$addToSet:{products: productDB._id}}).exec();
         res.send(productDB);
     }
     catch(error){
@@ -29,7 +29,7 @@ const createProduct=async(req,res)=>{
         errorResponse(res,"Contact database administrator",error,500);
     }
     finally{
-        await session.endSession();
+        session.endSession();
     }
 }
 

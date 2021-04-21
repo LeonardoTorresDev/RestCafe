@@ -8,7 +8,7 @@ const verifyUser=async(req,res)=>{
     if(!token){return customErrorResponse(res,"Token not found",400)}
     try{      
         const {uid}=jwt.verify(token,process.env.VERIFY_KEY);
-        await User.findByIdAndUpdate(uid,{verified: true});
+        await User.findByIdAndUpdate(uid,{verified: true}).exec();
         customResponse(res,"User verified!",200);
     }
     catch(error){

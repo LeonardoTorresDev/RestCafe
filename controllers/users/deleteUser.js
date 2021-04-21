@@ -14,10 +14,10 @@ const deleteUser=async(req,res)=>{
     try{
 
         const {id}=req.params;
-        const deletedUser=await User.findByIdAndUpdate(id,{state: false},{new: true});
+        const deletedUser=await User.findByIdAndUpdate(id,{state: false},{new: true}).exec();
 
-        await Category.updateMany({user: deletedUser._id},{state: false}); 
-        await Product.updateMany({user: deletedUser._id},{state: false})
+        await Category.updateMany({user: deletedUser._id},{state: false}).exec(); 
+        await Product.updateMany({user: deletedUser._id},{state: false}).exec()
 
         await session.commitTransaction();
         customResponse(res, "User deleted succesfully",200);
@@ -28,7 +28,7 @@ const deleteUser=async(req,res)=>{
         errorResponse(res,"Contact database administrator",error,500);
     }
     finally{
-        await session.endSession();
+        session.endSession();
     }
 };
 

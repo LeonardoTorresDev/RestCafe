@@ -8,7 +8,7 @@ const authToken=async(req,res,next)=>{
     if(!token){ return customErrorResponse(res,"User is not logged in",400);}
     try{      
         const {uid}=jwt.verify(token,process.env.SECRET_KEY);
-        const user=await User.findById(uid);
+        const user=await User.findById(uid).exec();
         
         if(!user){ return customErrorResponse(res,"Invalid token: User doesn't exists",400);}
         if(!user.state){ return customErrorResponse(res,"Invalid token: User is currently unactive",401);}

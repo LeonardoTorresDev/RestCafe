@@ -3,6 +3,7 @@ const searchCategories=require('./searchCategories');
 const searchProducts=require('./searchProducts');
 
 const search=async(req,res)=>{
+    
     const {collection,query}=req.query;
     
     switch(collection){

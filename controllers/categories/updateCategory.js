@@ -6,7 +6,7 @@ const updateCategory=async(req,res)=>{
     data.user = req.user._id;
     try{       
         const {id}=req.params;
-        await Category.findByIdAndUpdate(id,data,{new: true});
+        await Category.findByIdAndUpdate(id,data,{new: true}).exec();
         customResponse(res,"Category updated successfully",200);
     }
     catch(error){

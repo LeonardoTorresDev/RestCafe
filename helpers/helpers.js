@@ -13,8 +13,7 @@ const parseSort=(sort,order)=>{
 
 const encryptPassword=password=>{
     const salt=bcryptjs.genSaltSync();
-    const encryptedPassword=bcryptjs.hashSync(password,salt);
-    return encryptedPassword;
+    return bcryptjs.hashSync(password,salt);
 }
 
 const generateJWT=(uid, key=process.env.SECRET_KEY, expirationDate=process.env.EXPIRATION_DATE)=>{

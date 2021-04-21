@@ -9,7 +9,7 @@ const googleLogin=async(req,res)=>{
 
     try{
         const {name,email,img}=await googleVerify(idToken);      
-        let user=await User.findOne({email});
+        let user=await User.findOne({email}).exec();
         //validate if user email is already registered
         if(user.email&&!user.google){
             return customErrorResponse(res,"User already registered",400);

@@ -13,19 +13,19 @@ const updateProduct=async(req,res)=>{
         const {...data}=req.body;
         const {id}=req.params;
         data.user=req.user._id;
-        const updatedProduct=await Product.findByIdAndUpdate(id,data);
+        const updatedProduct=await Product.findByIdAndUpdate(id,data).exec();
 
         if(data.category){
             //delete product from original category products array
             await Category.findByIdAndUpdate(
                 updatedProduct.category,
                 {$pull: {products: updatedProduct._id}}
-            );
+            ).exec();
             //add product to destination category products array
             await Category.findByIdAndUpdate(
                data.category,
                {$addToSet: {products: updatedProduct._id}}
-            );
+            ).exec();
         }
 
         customResponse(res,"Product updated successfully",200);
@@ -35,7 +35,7 @@ const updateProduct=async(req,res)=>{
         errorResponse(res,"Contact database administrator",error,500);
     }
     finally{
-        await session.endSession();
+        session.endSession();
     }
 }
 

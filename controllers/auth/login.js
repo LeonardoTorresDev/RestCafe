@@ -7,7 +7,7 @@ const User=require('../../models/user');
 const login=async(req,res)=>{
     const {email,password}=req.body;
     try {
-        const user=await User.findOne({email});
+        const user=await User.findOne({email}).exec();
 
         if(!user){return customErrorResponse(res,"User not founded",400);}
         if(!user.state){ return customErrorResponse(res,"User is currently not active",400);}
