@@ -3,9 +3,17 @@ const {Router}=require('express');
 
 const uploadFile=require('../controllers/uploads/uploadFile');
 
+const {
+    authToken,
+    fileValidation
+}=require('../middlewares')
+
 const router=Router();
 
 
-router.post('/',uploadFile);
+router.post('/',[
+    authToken,
+    fileValidation
+],uploadFile);
 
 module.exports=router;
