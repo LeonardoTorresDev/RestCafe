@@ -21,7 +21,7 @@ const googleLogin=async(req,res)=>{
                 img,
                 google: true,
                 verified: true,
-                password: 'google_password'
+                password: process.env.DEFAULT_GOOGLE_PASSWORD
             });
             await user.save();
         }
