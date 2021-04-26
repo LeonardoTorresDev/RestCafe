@@ -37,7 +37,7 @@ const sendCookie=(res,token)=>{
     let httpOnly=true;
     let secure=false;
 
-    if(process.env.environment==='production'){
+    if(process.env.NODE_ENV==='production'){
         httpOnly=true;
         secure=false;
     }
