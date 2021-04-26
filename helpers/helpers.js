@@ -38,8 +38,8 @@ const sendCookie=(res,token)=>{
     let secure=false;
 
     if(process.env.NODE_ENV==='production'){
-        httpOnly=true;
-        secure=false;
+        httpOnly=false;
+        secure=true;
     }
 
     return res.cookie("RestCookie",token,{
