@@ -9,8 +9,7 @@ class Server{
 
     constructor() {
         this.app=express();
-        this.port=process.env.PORT;       
-
+        this.port=process.env.PORT;
         //database connection
         this.dbConnection();
         //middlewares
@@ -25,7 +24,12 @@ class Server{
 
     middlewares(){
         //CORS
-        this.app.use(cors());
+        this.app.use(cors({
+            origin: ['http://localhost:3000', 'https://pilot-43.herokuapp.com'],
+            methods: ['GET', 'PATCH', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+            allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept'],
+            credentials: true
+        }));
         //JSON parse
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended: false}));

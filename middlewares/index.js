@@ -1,11 +1,11 @@
 const fieldValidation = require('../middlewares/fieldValidation');
 const authToken = require('../middlewares/authToken');
 const authRole = require('../middlewares/authRole');
-const fileValidation = require('../middlewares/fileValidation');
+const fileValidators = require('./fileValidators');
 
 module.exports={
     ...fieldValidation,
     ...authToken,
     ...authRole,
-    ...fileValidation
+    ...fileValidators
 }
