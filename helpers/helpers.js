@@ -33,22 +33,10 @@ const generateJWT=(uid, key=process.env.SECRET_KEY, expirationDate=process.env.E
 }
 
 const sendCookie=(res,token)=>{
-
-    let httpOnly=true;
-    let secure=false;
-
-    if(process.env.NODE_ENV==='production'){
-        httpOnly=false;
-        secure=true;
-    }
-
     return res.cookie("RestCookie",token,{
         maxAge: Number(process.env.EXPIRATION_DATE),
-        httpOnly,
-        secure,
         sameSite: 'None'      
     });
-
 }
 
 const googleVerify=async(idToken)=>{
