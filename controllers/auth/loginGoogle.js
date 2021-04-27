@@ -10,10 +10,12 @@ const googleLogin=async(req,res)=>{
     try{
         const {name,email,img}=await googleVerify(idToken);      
         let user=await User.findOne({email}).exec();
+
         //validate if user email is already registered
         if(user.email&&!user.google){
             return customErrorResponse(res,"User already registered",400);
         }
+
         if(!user){
             user=new User({
                 name,
@@ -25,6 +27,7 @@ const googleLogin=async(req,res)=>{
             });
             await user.save();
         }
+
         if(!user.state){
             return customErrorResponse(res,"User currently blocked, contact administrator",401);
         }

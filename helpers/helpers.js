@@ -35,7 +35,9 @@ const generateJWT=(uid, key=process.env.SECRET_KEY, expirationDate=process.env.E
 const sendCookie=(res,token)=>{
     return res.cookie("RestCookie",token,{
         maxAge: Number(process.env.EXPIRATION_DATE),
-        sameSite: 'None'      
+        secure: true,
+        httpOnly: false,
+        sameSite: 'None'
     });
 }
 

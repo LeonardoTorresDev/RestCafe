@@ -11,8 +11,9 @@ const authToken=async(req,res,next)=>{
         const user=await User.findById(uid).exec();
         
         if(!user){ return customErrorResponse(res,"Invalid token: User doesn't exists",400);}
+        if(!user.verified){ return customErrorResponse(res,"User email it's not confirmed",401);}
         if(!user.state){ return customErrorResponse(res,"Invalid token: User is currently unactive",401);}
-     
+        
         req.user=user;    
         next();
     }
