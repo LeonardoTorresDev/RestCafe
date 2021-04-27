@@ -1,6 +1,6 @@
 # RestCafe
 
-This project is a REST API completely functional for a Cafe. 
+This project is a REST API completely functional for a Cafe.
 
 ## Functionalities
 
@@ -21,7 +21,6 @@ This project is a REST API completely functional for a Cafe.
 3. Fill values on `example.env` and create a new one called just `.env`
 4. Have fun and challenge yourself to improve this RESTServer
 
-
 ## About the Project
 
 As it says, this project is a classic REST API with some interesting stuff such as connections to Cloudinary, Google OAuth and it uses nodemailer to send mails to users who want to register on our application. Is available to perform in every front-end you create (is also a personal project that I have).
@@ -38,4 +37,4 @@ This project is currently deployed on heroku
 
 If you liked this, please give me a star.
 
-<img width=1300 height=300 src="assets/banner.jpg"/>
+<img width=1200 height=300 src="assets/Node-js-Logo.png"/>
