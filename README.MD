@@ -2,6 +2,8 @@
 
 This project is a REST API completely functional for a Cafe.
 
+<img align="right" width="250" height="250" src="assets/cloudinaryLogo.png"/>
+
 ## Functionalities
 
 - Send e-mails to verify users using nodemailer.
