@@ -14,7 +14,7 @@ This project is a REST API completely functional for a Cafe.
 - Complete CRUD for Users, Products and Categories
 - Every route is INSANELY validated using express-validator
 
-<img align="right" width="250" height="250" src="assets/nodejs-servidor.png"/>
+<img align="right" width=250 height=250 src="assets/nodejs-servidor.png"/>
 
 ## Installation
 
