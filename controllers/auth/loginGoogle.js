@@ -1,5 +1,5 @@
 const {customErrorResponse, errorResponse}=require('../../helpers/responses');
-const {googleVerify,generateJWT,sendCookie}=require('../../helpers/helpers');
+const {googleVerify,generateJWT}=require('../../helpers/helpers');
 
 const User=require('../../models/user');
 
@@ -32,8 +32,12 @@ const googleLogin=async(req,res)=>{
             return customErrorResponse(res,"User currently blocked, contact administrator",401);
         }
         const token=await generateJWT(user._id);
-        sendCookie(res,token);
-        return res.send(user);
+
+        return res.json({
+            user,
+            token
+        });
+
     }
     catch(error){
         console.log(error);

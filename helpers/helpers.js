@@ -32,36 +32,24 @@ const generateJWT=(uid, key=process.env.SECRET_KEY, expirationDate=process.env.E
     });
 }
 
-const sendCookie=(res,token)=>{
-    return res.cookie("RestCookie",token,{
-        maxAge: Number(process.env.EXPIRATION_DATE),
-        secure: true,
-        httpOnly: false,
-        sameSite: 'None'
-    });
-}
-
 const googleVerify=async(idToken)=>{
 
     const ticket = await client.verifyIdToken({
         idToken,
         audience: process.env.GOOGLE_CLIENT_ID
     });
-
     const {
         name,
         email,
         picture: img
     }=ticket.getPayload();
 
-    return {name,email,img}
-
+    return {name,email,img};
 }
 
 module.exports={
     parseSort,
     encryptPassword,
     generateJWT,
-    sendCookie,
     googleVerify
 };

@@ -8,7 +8,7 @@ This project is a REST API completely functional for a Cafe.
 
 - Send e-mails to verify users using nodemailer.
 - Upload validated images using Cloudinary and express-fileupload.
-- Auth users using JWT and Cookies
+- Auth users using JWT Authorization
 - Auth users also using Google OAuth
 - Upload data to cloud using MongoDB Atlas
 - Complete CRUD for Users, Products and Categories
@@ -37,6 +37,6 @@ This project is currently deployed on heroku
 - Improve the SMTP functionality
 - Deploy the project on AWS EC2
 
-If you liked this, please give me a star.
+If you liked this, please give me a star. 🚀️
 
 <img width=1200 height=300 src="assets/Node-js-Logo.png"/>

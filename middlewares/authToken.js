@@ -4,8 +4,13 @@ const {customErrorResponse}=require('../helpers/responses');
 const User=require('../models/user');
 
 const authToken=async(req,res,next)=>{
-    const token=req.cookies.RestCookie;
-    if(!token){ return customErrorResponse(res,"User is not logged in",400);}
+
+    const authHeader=req.header('Authorization');
+    if(!authHeader){ return customErrorResponse(res,"User is not logged in",400);}
+    if(!authHeader.startsWith("Bearer ",0)){ return customErrorResponse(res,"Bad authorization",400); }
+
+    const token = authHeader.substring(7,authHeader.length);
+
     try{      
         const {uid}=jwt.verify(token,process.env.SECRET_KEY);
         const user=await User.findById(uid).exec();

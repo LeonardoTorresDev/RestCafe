@@ -1,6 +1,5 @@
 const express=require('express');
 const cors=require('cors');
-const cookieParser=require('cookie-parser');
 const fileUpload=require('express-fileupload');
 
 const {dbConnection}=require('../database/config');
@@ -33,9 +32,7 @@ class Server{
         //JSON parse
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended: false}));
-        //cookie parse
-        this.app.use(cookieParser());
-        //upload
+        //file-upload
         this.app.use(fileUpload({
             limits: { fileSize: 50 * 1024 * 1024 },
             useTempFiles: true,
