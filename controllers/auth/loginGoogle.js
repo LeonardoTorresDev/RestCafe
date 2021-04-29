@@ -13,7 +13,7 @@ const googleLogin=async(req,res)=>{
 
         //validate if user email is already registered
         if(user.email&&!user.google){
-            return customErrorResponse(res,"User already registered",400);
+            return customErrorResponse(res,"User registered on standard, not by google OAuth",400);
         }
 
         if(!user){
