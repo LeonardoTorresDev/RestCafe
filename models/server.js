@@ -1,20 +1,27 @@
-const express=require('express');
-const cors=require('cors');
-const fileUpload=require('express-fileupload');
+const express = require('express');
+const cors = require('cors');
+const fileUpload = require('express-fileupload');
 
-const {dbConnection}=require('../database/config');
+const {createServer} = require('http');
+
+const {socketController} = require('../sockets/socketController');
+const {dbConnection} = require('../database/config');
 
 class Server{
 
-    constructor() {
-        this.app=express();
-        this.port=process.env.PORT;
+    constructor(){
+        this.app    = express();
+        this.port   = process.env.PORT;
+        this.server = createServer(this.app);
+        this.io     = require('socket.io')(this.server);
         //database connection
         this.dbConnection();
         //middlewares
         this.middlewares();
         //application routes
         this.routes();
+        //sockets
+        this.sockets();
     }
 
     async dbConnection(){
@@ -46,8 +53,12 @@ class Server{
         this.app.use('/api',require('../routes/index'));
     }
 
+    sockets(){
+        this.io.on('connection', socketController);
+    }
+
     listen(){
-        this.app.listen(this.port,()=>{
+        this.server.listen(this.port,()=>{
             console.log("Listening port",this.port);
         });
     }

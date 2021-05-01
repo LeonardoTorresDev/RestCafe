@@ -2,7 +2,6 @@ const {check} = require('express-validator');
 const {Router} = require('express');
 
 const getUsers = require('../controllers/users/getUsers');
-const getUser = require('../controllers/users/getUser');
 const createUser = require('../controllers/users/createUser');
 const verifyUser = require('../controllers/users/verifyUser');
 const updateUser = require('../controllers/users/updateUser');
@@ -20,8 +19,6 @@ const router = Router();
 
 const sortAllowedValues=["_id","name","email","role"];
 const orderAllowedValues=["asc","desc"];
-
-router.get('/current',authToken,getUser);
 
 router.get('/',[
     authToken,

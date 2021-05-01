@@ -3,8 +3,9 @@ const {check}=require('express-validator');
 
 const login=require('../controllers/auth/login');
 const loginGoogle=require('../controllers/auth/loginGoogle');
+const renovateToken=require('../controllers/auth/renovateToken');
 
-const {fieldValidation}=require('../middlewares/fieldValidation');
+const {fieldValidation, authToken}=require('../middlewares');
 
 const router=Router();
 
@@ -19,5 +20,9 @@ router.post('/google',[
     check('idToken','idToken is required').not().isEmpty(),
     fieldValidation
 ],loginGoogle);
+
+router.get('/', [
+    authToken
+], renovateToken);
 
 module.exports=router;
