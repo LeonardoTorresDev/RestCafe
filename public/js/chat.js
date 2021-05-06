@@ -7,6 +7,17 @@ const url = ( window.location.hostname.includes('localhost') )
 let user   = null;
 let socket = null;
 
+let txtUserName = document.querySelector('#txtUserName');
+let txtMessage  = document.querySelector('#txtMessage');
+let navUsers     = document.querySelector('#navUsers');
+let navMessages  = document.querySelector('#navMessages');
+let btnExit     = document.querySelector('#btnExit');
+
+btnExit.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    window.location = "index.html";
+})
+
 const validateJWT = async() => {
 
     const token = localStorage.getItem('token') || '';
@@ -34,11 +45,52 @@ const validateJWT = async() => {
 
 const connectSocket = async() => {
 
-    io({
+    socket = io({
         'extraHeaders': {
             'authorization': localStorage.getItem('token')
         }
     });
+
+    socket.on('connect', () => {
+        console.log("Sockets online");
+    });
+
+    socket.on('disconnect', () => {
+        console.log("Sockets offline");
+    });
+
+    socket.on('recieve-message', () => {
+        //to-do
+    });
+
+    socket.on('active-users', printUsers);
+
+    socket.on('private-message', () => {
+        //to-do
+    });
+
+}
+
+const printUsers= ( users = []) => {
+
+    let usersHtml = '';
+
+    users.forEach( ({ name, uid, img }) => {
+
+        usersHtml += `        
+            <div class="row mb-3">
+                <div class="col-2">
+                    <img src=${img} alt="image" class="thumbnail mb-2"/>  
+                </div>
+                <div class="col ms-2">
+                    <h5>${ name }</h5>  
+                    <span class="fs-6 text-muted">${ uid }</span>
+                </div>            
+            </div>
+        `;
+    });
+
+    navUsers.innerHTML = usersHtml;
 
 }
 
