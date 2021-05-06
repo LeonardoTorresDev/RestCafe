@@ -8,14 +8,10 @@ const googleLogin=async(req,res)=>{
     const {idToken}=req.body
 
     try{
+
         const {name,email,img}=await googleVerify(idToken);      
         let user=await User.findOne({email}).exec();
-
-        //validate if user email is already registered
-        if(user.email&&!user.google){
-            return customErrorResponse(res,"User registered on standard, not by google OAuth",400);
-        }
-
+        
         if(!user){
             user=new User({
                 name,
@@ -26,6 +22,12 @@ const googleLogin=async(req,res)=>{
                 password: process.env.DEFAULT_GOOGLE_PASSWORD
             });
             await user.save();
+        }
+        else{
+            //validate if user email is already registered
+            if(user.email&&!user.google){
+                return customErrorResponse(res,"User registered on standard, not by google OAuth",400);
+            }    
         }
 
         if(!user.state){
