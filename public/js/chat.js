@@ -7,7 +7,7 @@ const url = ( window.location.hostname.includes('localhost') )
 let user   = null;
 let socket = null;
 
-let txtUserName = document.querySelector('#txtUserName');
+let txtUid = document.querySelector('#txtUid');
 let txtMessage  = document.querySelector('#txtMessage');
 let navUsers     = document.querySelector('#navUsers');
 let navMessages  = document.querySelector('#navMessages');
@@ -16,7 +16,7 @@ let btnExit     = document.querySelector('#btnExit');
 btnExit.addEventListener('click', () => {
     localStorage.removeItem('token');
     window.location = "index.html";
-})
+});
 
 const validateJWT = async() => {
 
@@ -45,6 +45,7 @@ const validateJWT = async() => {
 
 const connectSocket = async() => {
 
+    //send token on extraheaders via handshake
     socket = io({
         'extraHeaders': {
             'authorization': localStorage.getItem('token')
@@ -52,17 +53,18 @@ const connectSocket = async() => {
     });
 
     socket.on('connect', () => {
-        console.log("Sockets online");
+        //console.log("Sockets online");
     });
 
     socket.on('disconnect', () => {
-        console.log("Sockets offline");
+        //console.log("Sockets offline");
     });
 
-    socket.on('recieve-message', () => {
-        //to-do
+    socket.on('receive-message', ( payload ) => {
+        console.log(payload)
     });
 
+    //get users from back-end and add an html for each one
     socket.on('active-users', printUsers);
 
     socket.on('private-message', () => {
@@ -88,11 +90,26 @@ const printUsers= ( users = []) => {
                 </div>            
             </div>
         `;
+
     });
 
     navUsers.innerHTML = usersHtml;
 
 }
+
+txtMessage.addEventListener('keyup', ({ keyCode }) => {
+    
+    const message = txtMessage.value;
+    const uid     = txtUid.value;
+
+    if( keyCode !== 13 ){ return; }
+    if( message.length === 0 ){ return; }
+
+    socket.emit('send-message', { message, uid });
+
+    txtMessage.value = '';
+
+});
 
 const main = async () => {
     await validateJWT();

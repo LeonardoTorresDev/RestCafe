@@ -10,7 +10,7 @@ const messageSchema = Schema({
         type: String,
         required: [true,'Message is required']
     },
-    reciever: {
+    receiver: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: false
