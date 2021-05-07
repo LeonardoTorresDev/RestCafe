@@ -1,3 +1,6 @@
+//io refers to the server socket (general for all connected users)
+//socket refers to the user connected (just for this connection)
+
 const {checkJWT} = require('../helpers/helpers');
 let chatController = require('./chatController');
 
@@ -14,6 +17,10 @@ const socketController = async( socket, io ) => {
     //when connect socket add user to object array and update active-users emit
     chatController.connectUser(user);
     io.emit('active-users', chatController.connectedUsers);
+    
+    //when connect user, send to client the last messages which server received
+    const lastMessages = await chatController.getLastMessages();
+    socket.emit('receive-message', lastMessages);
 
     //when disconnect socket delete user from object array and update active-users emit
     socket.on('disconnect', ()=>{
@@ -26,9 +33,9 @@ const socketController = async( socket, io ) => {
         //await until database saves new message
         await chatController.sendMessage(user.id, message);
         //await until database sends last ten messages 
-        const return_messages = await chatController.getLastMessages()
+        const returnMessages = await chatController.getLastMessages()
         //send last ten messages
-        io.emit('receive-message', return_messages );
+        io.emit('receive-message', returnMessages );
     });
 }
 

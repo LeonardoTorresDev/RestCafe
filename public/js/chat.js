@@ -60,9 +60,7 @@ const connectSocket = async() => {
         //console.log("Sockets offline");
     });
 
-    socket.on('receive-message', ( payload ) => {
-        console.log(payload)
-    });
+    socket.on('receive-message', printMessages);
 
     //get users from back-end and add an html for each one
     socket.on('active-users', printUsers);
@@ -73,12 +71,11 @@ const connectSocket = async() => {
 
 }
 
-const printUsers= ( users = []) => {
+const printUsers = ( users = [] ) => {
 
     let usersHtml = '';
 
     users.forEach( ({ name, uid, img }) => {
-
         usersHtml += `        
             <div class="row mb-3">
                 <div class="col-2">
@@ -90,16 +87,42 @@ const printUsers= ( users = []) => {
                 </div>            
             </div>
         `;
-
     });
 
     navUsers.innerHTML = usersHtml;
 
 }
 
+const printMessages = ( messages = [] ) => {
+
+    let messagesHtml = '';
+
+    messages.forEach(({message, author, creationDate}) => {
+
+        const date = new Date(creationDate).toUTCString();
+
+        if(author.uid === user.uid){ 
+            messagesHtml += `<div class="alert alert-info">`
+        }
+        else{
+            messagesHtml += `<div class="alert alert-warning">`
+        }
+
+        messagesHtml += `
+                <span class="message-user-text">${ author.name }: </span>
+                <span class="message-text">${ message }</span><br/>
+                <span class="message-date-text">${date}</span>
+            </div>
+        ` 
+    });
+
+    navMessages.innerHTML = messagesHtml;
+
+}
+
 txtMessage.addEventListener('keyup', ({ keyCode }) => {
     
-    const message = txtMessage.value;
+    const message = escapeHtml(txtMessage.value.trim());
     const uid     = txtUid.value;
 
     if( keyCode !== 13 ){ return; }
@@ -110,6 +133,10 @@ txtMessage.addEventListener('keyup', ({ keyCode }) => {
     txtMessage.value = '';
 
 });
+
+function escapeHtml(str) {
+    return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
 
 const main = async () => {
     await validateJWT();

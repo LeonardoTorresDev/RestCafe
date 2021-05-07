@@ -11,6 +11,8 @@ form.addEventListener('submit', event => {
     for ( let element of form.elements) {
         if ( element.name ){ formData[element.name] = element.value }
     }
+
+    console.log(formData)
     
     fetch( url+"login", {
         method: 'POST',
@@ -24,7 +26,7 @@ form.addEventListener('submit', event => {
 })
 
 
-onSignIn = googleUser =>{
+function onSignIn (googleUser){
 
     //var profile = googleUser.getBasicProfile();
     var idToken = googleUser.getAuthResponse().id_token;
@@ -41,7 +43,7 @@ onSignIn = googleUser =>{
 
 }
 
-signOut = () =>{
+const signOut = () =>{
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         console.log('User signed out.');
@@ -49,7 +51,7 @@ signOut = () =>{
     localStorage.removeItem('token');
 }
 
-authResponse = ({msg,token}) =>{
+const authResponse = ({msg,token}) =>{
     if(msg){ 
         alert("Authentication error: "+msg); 
     }

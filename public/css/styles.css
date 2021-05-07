@@ -17,6 +17,22 @@
   font-size: x-large;
 }
 
+.message-user-text {
+  font-weight: bold;
+  font-size: large;
+}
+
+.message-text {
+  color: black;
+  font-weight: bold;
+  font-size: large;
+}
+
+.message-date-text {
+  text-align: right;
+  font-weight: lighter;
+}
+
 body {
   min-height: 100vh;
   color: #ffffff;
