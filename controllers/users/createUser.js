@@ -18,7 +18,7 @@ const createUser= async (req,res)=>{
         user.password=encryptPassword(password);
         const userDB= await user.save();
         //send email to verify account with token
-        await emailVerify(userDB);
+        emailVerify(userDB);
         return customResponse(res,"Check your email to verify your account!",201);
     }
     catch(error){

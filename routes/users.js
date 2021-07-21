@@ -31,7 +31,7 @@ router.get('/',[
 
 router.post('/',[
     check('name','Invalid name').not().isEmpty().trim().escape(),
-    check('email','Invalid email').isEmail().normalizeEmail().escape(),
+    check('email','Invalid email').isEmail().escape(),
     check('password',
     'Password has to contain one digit, one lower, one upper and has to be eight characters long')
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/),

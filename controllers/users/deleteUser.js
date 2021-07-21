@@ -17,7 +17,7 @@ const deleteUser=async(req,res)=>{
         const deletedUser=await User.findByIdAndUpdate(id,{state: false},{new: true}).exec();
 
         await Category.updateMany({user: deletedUser._id},{state: false}).exec(); 
-        await Product.updateMany({user: deletedUser._id},{state: false}).exec()
+        await Product.updateMany({user: deletedUser._id},{state: false}).exec();
 
         await session.commitTransaction();
         customResponse(res, "User deleted succesfully",200);

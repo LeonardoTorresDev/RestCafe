@@ -9,7 +9,7 @@ const login=async(req,res)=>{
     try {
         const user=await User.findOne({email}).exec();
 
-        if(!user){return customErrorResponse(res,"User not founded",400);}
+        if(!user){return customErrorResponse(res,"User not found",400);}
         if(!user.verified){return customErrorResponse(res,"User e-mail not verified",401)}
         if(!user.state){ return customErrorResponse(res,"User is currently not active",401);}
 

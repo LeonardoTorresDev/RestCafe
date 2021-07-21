@@ -1,17 +1,14 @@
 //io refers to the server socket (general for all connected users)
 //socket refers to the user connected (just for this connection)
-
 const {checkJWT} = require('../helpers/helpers');
 let chatController = require('./chatController');
 
 chatController = new chatController();
 
-
 const socketController = async( socket, io ) => {
 
     //get token from frontend connection
     const user = await checkJWT(socket.handshake.headers.authorization);
-
     if(!user){ return socket.disconnect(); }
 
     //when connect socket add user to object array and update active-users emit
@@ -37,6 +34,7 @@ const socketController = async( socket, io ) => {
         //send last ten messages
         io.emit('receive-message', returnMessages );
     });
+
 }
 
 module.exports = {

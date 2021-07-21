@@ -1,8 +1,6 @@
-
 const url = ( window.location.hostname.includes('localhost') )
         ? 'http://localhost:3000/api/auth'
         : 'https://pilot-43.herokuapp.com/api/auth';
-
 
 let user   = null;
 let socket = null;
@@ -113,7 +111,7 @@ const printMessages = ( messages = [] ) => {
                 <span class="message-text">${ message }</span><br/>
                 <span class="message-date-text">${date}</span>
             </div>
-        ` 
+        ` ;
     });
 
     navMessages.innerHTML = messagesHtml;

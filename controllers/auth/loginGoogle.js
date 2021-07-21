@@ -3,14 +3,14 @@ const {googleVerify,generateJWT}=require('../../helpers/helpers');
 
 const User=require('../../models/user');
 
-const googleLogin=async(req,res)=>{
+const googleLogin = async( req, res)=>{
 
     const {idToken}=req.body
 
     try{
 
-        const {name,email,img}=await googleVerify(idToken);      
-        let user=await User.findOne({email}).exec();
+        const {name,email,img} = await googleVerify(idToken);      
+        let user = await User.findOne({email}).exec();
         
         if(!user){
             user=new User({
